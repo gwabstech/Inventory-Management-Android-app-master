@@ -20,7 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class additemActivity extends AppCompatActivity {
-    private EditText itemname,itemcategory,itemprice;
+    private EditText itemname,itemcategory,itemprice,itemQty;
     private TextView itembarcode;
     private FirebaseAuth firebaseAuth;
     public static TextView resulttextview;
@@ -41,6 +41,7 @@ public class additemActivity extends AppCompatActivity {
         scanbutton = findViewById(R.id.buttonscan);
         itemname = findViewById(R.id.edititemname);
         itemcategory= findViewById(R.id.editcategory);
+        itemQty = findViewById(R.id.edtQty);
         itemprice = findViewById(R.id.editprice);
         itembarcode= findViewById(R.id.barcodeview);
 
@@ -73,6 +74,7 @@ public  void additem(){
         String itemnameValue = itemname.getText().toString();
         String itemcategoryValue = itemcategory.getText().toString();
         String itempriceValue = itemprice.getText().toString();
+        String itemQty1 = itemQty.getText().toString();
         String itembarcodeValue = itembarcode.getText().toString();
          final FirebaseUser users = firebaseAuth.getCurrentUser();
         String finaluser=users.getEmail();
@@ -84,35 +86,22 @@ public  void additem(){
     }
 
 
-    if(!TextUtils.isEmpty(itemnameValue)&&!TextUtils.isEmpty(itemcategoryValue)&&!TextUtils.isEmpty(itempriceValue)){
+    if(!TextUtils.isEmpty(itemnameValue)&&!TextUtils.isEmpty(itemcategoryValue)&&!TextUtils.isEmpty(itempriceValue) && !TextUtils.isEmpty(itemQty1)){
 
-        Items items = new Items(itemnameValue,itemcategoryValue,itempriceValue,itembarcodeValue);
+        Items items = new Items(itemnameValue,itemcategoryValue,itempriceValue,itembarcodeValue,itemQty1);
         databaseReference.child(resultemail).child("Items").child(itembarcodeValue).setValue(items);
         databaseReferencecat.child(resultemail).child("ItemByCategory").child(itemcategoryValue).child(itembarcodeValue).setValue(items);
         itemname.setText("");
         itembarcode.setText("");
         itemprice.setText("");
         itembarcode.setText("");
+        itemQty.setText("");
         Toast.makeText(additemActivity.this,itemnameValue+" Added",Toast.LENGTH_SHORT).show();
     }
     else {
         Toast.makeText(additemActivity.this,"Please Fill all the fields",Toast.LENGTH_SHORT).show();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     // logout below
